@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
   },
   {
-    path: "/dashboard",
+    path: "/",
     element: <DashBoardLayout />,
     children: [
       {

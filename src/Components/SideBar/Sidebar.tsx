@@ -1,7 +1,7 @@
 import CompanyLogo from "../../assets/CompanyLogo.svg"
 import { SideBarLinks } from "@/CONSTANTS/SideBarMenuLinks";
 import IconToolTipWrapper from "./IconToolTipWrapper";
-import { NavLink,useLocation } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 export default function Sidebar() {
   
   return (
