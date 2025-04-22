@@ -1,8 +1,6 @@
-"use client"
-
-import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-
+import { TrendingUp } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import Tab from "./Tab";
 import {
   Card,
   CardContent,
@@ -10,13 +8,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card"
+} from "@/Components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/Components/ui/chart"
+} from "@/Components/ui/chart";
+import { useState } from "react";
 const chartData = [
   { month: "January", sales: 186 },
   { month: "February", sales: 305 },
@@ -24,29 +23,64 @@ const chartData = [
   { month: "April", sales: 73 },
   { month: "May", sales: 209 },
   { month: "June", sales: 214 },
-]
+  { month: "July", sales: 250 },
+  { month: "August", sales: 190 },
+  { month: "September", sales: 300 },
+  { month: "October", sales: 220 },
+  { month: "November", sales: 280 },
+  { month: "December", sales: 350 },
+];
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function SalesChart() {
+  // State to find which tab is active
+  const [activeTab, setActiveTab] = useState<"3m" | "6m" | "1y">("6m");
+
+  // Filtering the data based on the chart
+
+  const filteredData = (() => {
+    const monthsToShow = activeTab === "3m" ? 3 : activeTab === "6m" ? 6 : 12;
+    return chartData.slice(-monthsToShow);
+  })();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Sales OverView</CardTitle>
-        <CardDescription>
-          Customers for the last 6 months
-        </CardDescription>
+        <CardDescription>Customers for the last 6 months</CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="flex space-x-4 border-b mb-4">
+          <Tab
+            value="3m"
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            label="3 Months"
+          />
+
+          <Tab
+            value="6m"
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            label="6 Months"
+          />
+          <Tab
+            value="1y"
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            label="1 Year"
+          />
+        </div>
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={filteredData}
             margin={{
               left: 12,
               right: 12,
@@ -81,11 +115,13 @@ export function SalesChart() {
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
+              {activeTab === "3m" && "Last 3 months"}
+              {activeTab === "6m" && "Last 6 months"}
+              {activeTab === "1y" && "Last 12 months"}
             </div>
           </div>
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
