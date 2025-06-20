@@ -88,7 +88,7 @@ export default function ProductManagementPage() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 m-5">
+        <div className="flex-1 m-5 h-screen bg-white shadow-xl rounded-lg">
           <Outlet />
         </div>
       </div>

@@ -4,6 +4,7 @@ import DashBoardLayout from "@/Layout/DashBoard/DashBoardLayout";
 import DashBoardPage from "@/Pages/DashBoardPage/DashBoardPage";
 import ProductManagementPage from "@/Pages/ProductManagementPage/ProductManagementPage";
 import Sidebar from "@/Components/SideBar/Sidebar";
+import BannerImagePage from "@/Pages/BannerImagePage/BannerImagePage";
 
 const router = createBrowserRouter([
 
@@ -27,11 +28,11 @@ const router = createBrowserRouter([
         children:[
           {
             index:true,
-            element:<ProductManagementPage />
+            element:<BannerImagePage />
           },
           {
             path:"banner",
-            element:<ProductManagementPage />
+            element:<BannerImagePage />
           },
           {
             path:"product",
