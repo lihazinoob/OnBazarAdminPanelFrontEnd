@@ -4,7 +4,7 @@ export default function DashBoardLayout() {
   return (
     <>
       <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
-        <div className="w-[100px] bg-indigo-50 fixed top-0 left-0 h-full;">
+        <div className="w-[100px] bg-indigo-50 fixed top-0 left-0 h-full z-50">
           <Sidebar />
         </div>
         <div className="flex-1 md:ml-[100px] flex flex-col min-h-screen">

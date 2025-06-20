@@ -1,14 +1,16 @@
 import { LayoutDashboard, FolderOpen } from "lucide-react"
 
+
 export const SideBarLinks = [
   {
     label:"DashBoard",
     icon:LayoutDashboard,
-    path:"/dashboard"
+    path:"/"
   },
   {
-    label:"Products",
+    label:"Content Management",
     icon:FolderOpen,
-    path:"/products"
-  }
+    path:"/cms"
+  },
+  
 ]

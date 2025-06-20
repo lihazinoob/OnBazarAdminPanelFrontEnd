@@ -6,7 +6,7 @@ export default function Sidebar() {
   
   return (
     <>
-      <div className="h-full flex flex-col items-center mt-6">
+      <div className="h-full flex flex-col items-center mt-6 ">
 
         {/* Logo Holder */}
         <div>
