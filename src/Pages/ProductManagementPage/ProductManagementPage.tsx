@@ -16,6 +16,7 @@ export default function ProductManagementPage() {
       description: "Manage homepage banner images",
       path: "/cms/banner",
     },
+    
     {
       id: "product",
       label: "Product Upload",
