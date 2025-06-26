@@ -4,6 +4,11 @@ import { RiImageAddFill, RiDeleteBinLine,RiSave3Fill } from "react-icons/ri";
 export default function BannerImagePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // State for error messages
+  const [error,setError] = useState<string|null>(null);
+  // State for loaders
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +33,34 @@ export default function BannerImagePage() {
     setImageFile(null);
     setPreviewUrl(null);
   };
+
+  const onSave = async()=>{
+    if(!imageFile)
+    {
+      setError("Please select an image to upload.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      // creating a formdata instance so that I can send the image data
+      const formData = new FormData();
+      formData.append("bannerImage", imageFile);//imageFile is the image with the key named "bannerImage"
+
+      // Sending the image to the backend server
+      const response = await fetch("https://raw-node-js.onrender.com/api/uploadBannerImage",{
+        method:"POST",
+        body: formData,
+      })
+      console.log(response);
+
+
+
+    } catch (error) {
+      
+    }
+
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 sm:p-8 md:p-10">
@@ -93,16 +126,28 @@ export default function BannerImagePage() {
           </label>
         </div>
       </div>
+      {/* Error Message */}
+      {error && (
+        <div
+          className="mt-4 text-red-600 text-sm sm:text-base animate-slideIn"
+          style={{ animationDelay: "400ms" }}
+        >
+          {error}
+        </div>
+      )}
+
+
+      {/* Save Button */}
       <div className="flex items-center justify-center mt-10">
         <button
           type="button"
-        
+          onClick={onSave}
           className="flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-indigo-600 text-white rounded-lg shadow-md font-lufga font-semibold text-sm sm:text-base hover:bg-indigo-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95 transition-all duration-200 animate-slideIn cursor-pointer"
           style={{ animationDelay: "500ms" }}
           aria-label="Save changes"
         >
           <RiSave3Fill size={20} className="mr-2" />
-          Save
+          {loading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </div>
