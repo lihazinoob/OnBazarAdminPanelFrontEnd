@@ -1,11 +1,24 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 import {
   RiImageAddFill,
   RiDeleteBinLine,
   RiSave3Fill,
   RiEdit2Fill,
 } from "react-icons/ri";
+
+// interface for the data type of category
+interface Category{
+  id: number;
+  created_at: string;
+  category_name: string;
+  category_description: string;
+  category_image: string;
+}
+
+
 
 export default function CategoryManagementPage() {
   // state for user input related category information'
@@ -23,7 +36,7 @@ export default function CategoryManagementPage() {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   // state for categories list
-  const [categories, setCategories] = React.useState([]);
+  const [categories, setCategories] = React.useState<Category[]>([]);
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +55,27 @@ export default function CategoryManagementPage() {
       }
     };
   }, [categoryImagePreview]);
+
+  // upon mounting the component, fetch the existing categories from the backend
+  React.useEffect(()=>{
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          "https://raw-node-js.onrender.com/api/fetchAllCategoryInformation"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data.categoryInformation);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setError("Failed to fetch categories. Please try again.");
+      }
+    };
+
+    fetchCategories(); 
+  })
 
   // Remove uploaded image
   const handleRemoveImage = () => {
@@ -66,14 +100,18 @@ export default function CategoryManagementPage() {
 
       // Sending the data to the backend server
       const response = await fetch(
-        "http://localhost:3000/api/uploadCategoryInformation",
+        "https://raw-node-js.onrender.com/api/uploadCategoryInformation",
         {
           method: "POST",
           body: formData,
         }
       );
+      if (!response.ok) {
+        throw new Error("Failed to upload category");
+      }
 
-      const newCategory = await response.json();
+      const data = await response.json();
+      const newCategory:Category = data.categoryInformation[0];
       console.log(newCategory);
       if (newCategory) {
         setCategories([...categories, newCategory]);
@@ -94,17 +132,17 @@ export default function CategoryManagementPage() {
   };
 
   // function to delete a category
-  const handleDelete = async (id) => {
-    try {
-      // Simulated API call
-      // await fetch(`https://your-api-endpoint/api/categories/${id}`, {
-      //   method: "DELETE",
-      // });
-      setCategories(categories.filter((category) => category.id !== id));
-    } catch (err) {
-      setError("Failed to delete category.");
-    }
-  };
+  // const handleDelete = async (id) => {
+  //   try {
+  //     // Simulated API call
+  //     // await fetch(`https://your-api-endpoint/api/categories/${id}`, {
+  //     //   method: "DELETE",
+  //     // });
+  //     setCategories(categories.filter((category) => category.id !== id));
+  //   } catch (err) {
+  //     setError("Failed to delete category.");
+  //   }
+  // };
 
   return (
     <>
@@ -216,6 +254,77 @@ export default function CategoryManagementPage() {
                 <RiSave3Fill size={20} className="mr-2" />
                 {loading ? "Saving..." : "Save Category"}
               </button>
+            </div>
+          </div>
+
+          {/* Categories Table */}
+          <div className="mt-10 bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-indigo-800 mb-4">
+              Existing Categories
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Description
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Image
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {categories.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={4}
+                        className="px-6 py-4 text-center text-gray-500"
+                      >
+                        No categories found.
+                      </td>
+                    </tr>
+                  ) : (
+                    categories.map((category) => (
+                      <tr key={category.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {category.category_name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {category.category_description}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <img
+                            src={category.category_image}
+                            alt={category.category_name}
+                            className="h-16 w-16 object-cover rounded"
+                          />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <Link
+                            to={`/cms/category/update/${category.id}`}
+                            className="text-indigo-600 hover:text-indigo-900 mr-4"
+                          >
+                            <RiEdit2Fill size={20} />
+                          </Link>
+                          <button
+                            // onClick={() => handleDelete(category.id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            <RiDeleteBinLine size={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
