@@ -3,9 +3,9 @@ import { createBrowserRouter } from "react-router-dom";
 import DashBoardLayout from "@/Layout/DashBoard/DashBoardLayout";
 import DashBoardPage from "@/Pages/DashBoardPage/DashBoardPage";
 import ProductManagementPage from "@/Pages/ProductManagementPage/ProductManagementPage";
-import Sidebar from "@/Components/SideBar/Sidebar";
 import BannerImagePage from "@/Pages/BannerImagePage/BannerImagePage";
 import CategoryManagementPage from "@/Pages/CategoryManagementPage/CategoryManagementPage";
+import CategoryUpdatepage from "@/Pages/CategoryManagementPage/CategoryUpdatePage";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +41,10 @@ const router = createBrowserRouter([
             path: "category",
             element: <CategoryManagementPage />,
           },
+          {
+            path:"category/update/:id",
+            element: <CategoryUpdatepage/>,
+          }
         ],
       },
     ],
