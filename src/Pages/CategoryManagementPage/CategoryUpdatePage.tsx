@@ -134,9 +134,9 @@ export default function CategoryUpdatepage() {
       formData.append("categoryImage", categoryImage);
 
       const response = await fetch(
-        `https://raw-node-js.onrender.com/api/updateCategoryInformation/${id}`,
+        `https://raw-node-js.onrender.com/api/updateCategoryInformation`,
         {
-          method: "PUT",
+          method: "POST",
           body: formData,
         }
       );
@@ -292,6 +292,7 @@ export default function CategoryUpdatepage() {
                 <div className="relative w-full h-64 bg-gray-200 rounded-lg shadow-md overflow-hidden">
                   <img
                     src={
+                      categoryImagePreview ||
                       "https://via.placeholder.com/400x300.png?text=No+Image+Available"
                     }
                     alt="Category Image Preview"

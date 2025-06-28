@@ -132,17 +132,17 @@ export default function CategoryManagementPage() {
   };
 
   // function to delete a category
-  // const handleDelete = async (id) => {
-  //   try {
-  //     // Simulated API call
-  //     // await fetch(`https://your-api-endpoint/api/categories/${id}`, {
-  //     //   method: "DELETE",
-  //     // });
-  //     setCategories(categories.filter((category) => category.id !== id));
-  //   } catch (err) {
-  //     setError("Failed to delete category.");
-  //   }
-  // };
+  const handleDelete = async (id:number) => {
+    try {
+      // Simulated API call
+      await fetch(`https://raw-node-js.onrender.com/api/deleteCategoryInformation/${id}`, {
+        method: "DELETE",
+      });
+      setCategories(categories.filter((category) => category.id !== id));
+    } catch (err) {
+      setError("Failed to delete category.");
+    }
+  };
 
   return (
     <>
@@ -314,7 +314,7 @@ export default function CategoryManagementPage() {
                             <RiEdit2Fill size={20} />
                           </Link>
                           <button
-                            // onClick={() => handleDelete(category.id)}
+                            onClick={() => handleDelete(category.id)}
                             className="text-red-600 hover:text-red-900"
                           >
                             <RiDeleteBinLine size={20} />
