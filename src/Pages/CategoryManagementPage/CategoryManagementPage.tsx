@@ -75,7 +75,7 @@ export default function CategoryManagementPage() {
     };
 
     fetchCategories(); 
-  })
+  },[])
 
   // Remove uploaded image
   const handleRemoveImage = () => {

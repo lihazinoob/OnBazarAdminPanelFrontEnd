@@ -6,6 +6,7 @@ import ProductManagementPage from "@/Pages/ProductManagementPage/ProductManageme
 import BannerImagePage from "@/Pages/BannerImagePage/BannerImagePage";
 import CategoryManagementPage from "@/Pages/CategoryManagementPage/CategoryManagementPage";
 import CategoryUpdatepage from "@/Pages/CategoryManagementPage/CategoryUpdatePage";
+import ProductUploadPage from "@/Pages/ProductUploadPage/ProductUploadPage";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
           },
           {
             path: "product",
-            element: <CategoryManagementPage />,
+            element: <ProductUploadPage />,
           },
           {
             path: "category",
