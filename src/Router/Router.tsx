@@ -7,6 +7,7 @@ import BannerImagePage from "@/Pages/BannerImagePage/BannerImagePage";
 import CategoryManagementPage from "@/Pages/CategoryManagementPage/CategoryManagementPage";
 import CategoryUpdatepage from "@/Pages/CategoryManagementPage/CategoryUpdatePage";
 import ProductUploadPage from "@/Pages/ProductUploadPage/ProductUploadPage";
+import ProductTablePage from "@/Pages/ProductUploadPage/ProductTablePage";
 
 const router = createBrowserRouter([
   {
@@ -39,9 +40,14 @@ const router = createBrowserRouter([
             element: <ProductUploadPage />,
           },
           {
+            path: "product/table",
+            element:<ProductTablePage/>
+          },
+          {
             path: "category",
             element: <CategoryManagementPage />,
           },
+
           {
             path:"category/update/:id",
             element: <CategoryUpdatepage/>,
